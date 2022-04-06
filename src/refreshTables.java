@@ -9,6 +9,7 @@ public class refreshTables
 {
     public static void StaffTable(JTable table, DefaultTableModel model, DefaultTableCellRenderer cellRenderer)
     {
+        JOptaaasgafyastftaa
         model = new DefaultTableModel()
         {
             @Override
