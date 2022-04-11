@@ -35,7 +35,7 @@ public class getFunction
     public static String checkNationalOrForeignSupplier(String suppName, String conclusion)
     {
         Connection connect = connectToDatabase.connectToSql(actionListener.user, actionListener.password);
-		String funct = "{? = call nationalOrForeignSupplier_function(?)}";
+		String funct = "{? = call foreignOrNationalSupplier_function(?)}";
 
         try 
         {
@@ -106,6 +106,30 @@ public class getFunction
         {
             e.printStackTrace();
         }
+        return conclusion;
+    }
+
+
+
+    public static String compare2Stalls(String name1, String name2, String conclusion)
+    {
+        Connection connect = connectToDatabase.connectToSql(actionListener.user, actionListener.password);
+		String funct = "{? = call compare2Stalls_function(?,?)}";
+
+        try 
+        {
+            CallableStatement cs = connect.prepareCall(funct);
+			cs.registerOutParameter(1, java.sql.Types.VARCHAR);
+			cs.setString(2, name1);
+            cs.setString(3, name2);
+			cs.execute();
+			conclusion = cs.getString(1);
+        } 
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+        }
+
         return conclusion;
     }
 }

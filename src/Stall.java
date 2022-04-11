@@ -1,3 +1,7 @@
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 import javax.swing.ImageIcon;
 
 public class Stall 
@@ -20,6 +24,8 @@ public class Stall
         this.Gender = Gender;
         this.Image = Image;
     }
+
+	public Stall(){}
 
     //cài đặt getter 
 	public String getOrdinal_Number()
@@ -87,5 +93,34 @@ public class Stall
 	public Object[] stallToArray()
 	{
 		return new Object[] {Ordinal_Number, Stall_Name, Seller_ID};
+	}
+
+	public Object[] sellersAtStallsToArray()
+	{
+		return new Object[]  {Stall_Name, Seller_ID, Seller_Name, Gender, Image};
+	}
+
+
+	public boolean stallIsExisted(String stallName)
+	{
+		Connection connect =  connectToDatabase.connectToSql(actionListener.user, actionListener.password);
+		String sql = "select Stall_Name from Stall where Stall_Name = '" + stallName + "'" ;
+
+		try
+		{
+			Statement stm = connect.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			if(rs.next() == true)
+			{
+				this.Stall_Name = rs.getString("Stall_Name");
+				return true;
+			}
+		}
+		catch(Exception exc)
+		{
+			exc.printStackTrace();
+		}
+
+		return false;
 	}
 }

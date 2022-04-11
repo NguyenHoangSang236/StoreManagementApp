@@ -39,8 +39,8 @@ public class actionListener extends userInterface
 
 			int count = 0;
 			boolean status = false;
-			String u = loginPanel_userTextField.getText();
-			String p = String.valueOf(loginPanel_passwordTextField.getPassword());
+			String userInTextField = loginPanel_userTextField.getText();
+			String passwordInTextField = String.valueOf(loginPanel_passwordTextField.getPassword());
 
 			Connection connect = connectToDatabase.connectToSql("sa", "123");			
 			String sql = "select UserAccount, password from LoginStaff";
@@ -52,23 +52,29 @@ public class actionListener extends userInterface
 				{
 					us[count] = rs.getString("UserAccount");
 					pw[count] = rs.getString("password");
-					if(us[count].equals(u))
+					if(us[count].equals(userInTextField))
 					{
-						if(pw[count].equals(p))
+						if(pw[count].equals(passwordInTextField))
 						{
-							user = us[count];
-							password = pw[count];
+							String currentUser;
+							currentUser = us[count];
 							loginPanel_loginButt.setEnabled(true);
-							loginPanel_announceLabel.setText("Login success, welcome " + user);
+							loginPanel_announceLabel.setText("Login success, welcome " + currentUser);
 							status = true;
 							break;
 						}
 					}
 				}
+
 				if(status == false)
 				{
 					loginPanel_announceLabel.setText("Login fail, can not find this account");
 					loginPanel_staffRaButt.setSelected(false);
+				}
+				else if(status == true)
+				{
+					user = "staffAccount";
+					password = "123";
 				}
 			}
 			catch(Exception expt)
@@ -88,8 +94,8 @@ public class actionListener extends userInterface
 
 			int count = 0;
 			boolean status = false;
-			String p = String.valueOf(loginPanel_passwordTextField.getPassword());
-			String u = loginPanel_userTextField.getText();
+			String userInTextBox = loginPanel_userTextField.getText();
+			String passwordInTextBox = String.valueOf(loginPanel_passwordTextField.getPassword());
 
 			Connection connect = connectToDatabase.connectToSql("sa", "123");
 			String sql = "select UserAccount, password from LoginManager";
@@ -101,23 +107,29 @@ public class actionListener extends userInterface
 				{
 					us[count] = rs.getString("UserAccount");
 					pw[count] = rs.getString("password");
-					if(us[count].equals(u))
+					if(us[count].equals(userInTextBox))
 					{
-						if(pw[count].equals(p))
+						if(pw[count].equals(passwordInTextBox))
 						{
-							user = us[count];
-							password = pw[count];
+							String currentUser;
+							currentUser = us[count];
 							loginPanel_loginButt.setEnabled(true);
-							loginPanel_announceLabel.setText("Login success, welcome " + user);
+							loginPanel_announceLabel.setText("Login success, welcome " + currentUser);
 							status = true;
 							break;
 						}
 					}
 				}
+
 				if(status == false)
 				{
 					loginPanel_announceLabel.setText("Login fail, can not find this account");
 					loginPanel_managerRaButt.setSelected(false);
+				}
+				else if(status == true)
+				{
+					user = "managerAccount";
+					password = "123";
 				}
 			} 
 			catch (Exception expt) 

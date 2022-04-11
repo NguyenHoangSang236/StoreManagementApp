@@ -28,6 +28,7 @@ public class staffPanel implements ActionListener
     public byte[] addedByteOfImg, initByteImg;
 	public int rowPoint;
 	public String sltItem;
+	public String[] optionList = {"Show national Staffs", "Show foreign Staffs", "Show Staff in the selected Position", "Check the selected Staff's hometown", "Search using Staff's ID", "Search using Staff's name"}; 
 
     public JPanel stfPanel = new JPanel();
 	public JScrollPane stfPanel_table = new JScrollPane();
@@ -36,17 +37,10 @@ public class staffPanel implements ActionListener
 	public JTextField stfPanel_textField = new JTextField();
 	public JButton stfPanel_searchOrCheckButt = new JButton("Search");
 	public JButton stfPanel_showTblButt = new JButton("Show full table");
-	public JButton stfPanel_nationalStfButt = new JButton("National Staffs");
-	public JButton stfPanel_foreignStfButt = new JButton("Foreign Staffs");
-	public JButton stfPanel_staffsInPosButt = new JButton("Staffs in a Position");
-	public JButton stfPanel_checkStfHtwnButt = new JButton("Hometown of a Staff");
-	public JButton stfPanel_searchByIDButt = new JButton("Search by ID");
-	public JButton stfPanel_searchByNameButt = new JButton("Search by Name");
 	public JButton stfPanel_addButt = new JButton("Add");
 	public JButton stfPanel_deleteButt = new JButton("Delete");
 	public JButton stfPanel_editButt = new JButton("Edit");
-	public String[] optionList = {"Show national Staffs", "Show foreign Staffs", "Show Staff in the selected Position", "Check the selected Staff's hometown", "Search using Staff's ID", "Search using Staff's name"}; 
-	public popupResize stfPanel_comboBox = new popupResize(optionList);
+	public customedComboBox stfPanel_comboBox = new customedComboBox(optionList);
 
 	public JPanel showStfInfoPanel = new JPanel();
 	public JLabel showStfInfo_IDLabel = new JLabel("Staff ID");
@@ -96,18 +90,10 @@ public class staffPanel implements ActionListener
 	public JLabel editStfInfo_genderLabel = new JLabel("Gender");
 	public JButton editStfInfo_completedButt;
 
-    public ImageIcon searchIcon = new ImageIcon();
-	public ImageIcon checkIcon = new ImageIcon();
-	public ImageIcon editIcon = new ImageIcon();
-	public ImageIcon deleteIcon = new ImageIcon();
-	public ImageIcon addIcon = new ImageIcon();
-	public ImageIcon showIcon = new ImageIcon();
-
 
     //method for setting up components in Staff Panel
 	public void setStaffPanel()
 	{
-        images.readIcons(addIcon, deleteIcon, editIcon, searchIcon, checkIcon, showIcon);
 
         stfPanel.setBounds(0, 0, 1164, 594);
 		stfPanel.setLayout(null);
@@ -157,10 +143,10 @@ public class staffPanel implements ActionListener
 					}
 				}
 			}
-			);
+		);
 			
 		stfPanel_searchOrCheckButt.setBounds(877, 42, 130, 34);
-		stfPanel_searchOrCheckButt.setIcon(searchIcon);
+		stfPanel_searchOrCheckButt.setIcon(userInterface.searchIcon);
 		stfPanel_searchOrCheckButt.setHorizontalTextPosition(SwingConstants.LEFT);
 		stfPanel_searchOrCheckButt.addActionListener(this);
 		stfPanel_searchOrCheckButt.setForeground(Color.red);
@@ -175,85 +161,105 @@ public class staffPanel implements ActionListener
 		stfPanel_textField.setBounds(340, 42, 343, 34);
 		stfPanel_textField.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		stfPanel_textField.addMouseListener(new MouseInputAdapter() 
-		{
-			public void mouseClicked(MouseEvent e){
-				stfPanel_textField.setText("");
-				stfPanel_textField.setForeground(Color.BLACK);
-			}
+			{
+				public void mouseClicked(MouseEvent e)
+				{
+					stfPanel_textField.setText("");
+					stfPanel_textField.setForeground(Color.BLACK);
+				}
 			}
 		);
 		stfPanel.add(stfPanel_textField);
 
 		stfPanel_comboBox.setBounds(684, 42, 142, 34);
 		stfPanel_comboBox.setPreferredSize(new Dimension(180, 20));
-        stfPanel_comboBox.setWide(true);
+        stfPanel_comboBox.setWide(true); 
 		stfPanel_comboBox.addActionListener(new ActionListener()
 			{
 				public void actionPerformed(ActionEvent e)
 				{
 					sltItem = (String) stfPanel_comboBox.getSelectedItem();
-					//JOptionPane.showMessageDialog(null,sltItem);
 
-					switch (sltItem) {
+					switch (sltItem) 
+					{
 						case "Show national Staffs":
 							stfPanel_searchOrCheckButt.setText("Show");
-							stfPanel_searchOrCheckButt.setIcon(showIcon);
-							
+							stfPanel_searchOrCheckButt.setIcon(userInterface.showIcon);
+							stfPanel_searchOrCheckButt.setActionCommand("show national staffs");
+
+							stfPanel_editButt.setVisible(true);
 							break;
 
 						case "Show foreign Staffs":
 							stfPanel_searchOrCheckButt.setText("Show");
-							stfPanel_searchOrCheckButt.setIcon(showIcon);
-							
+							stfPanel_searchOrCheckButt.setIcon(userInterface.showIcon);
+							stfPanel_searchOrCheckButt.setActionCommand("show foreign staffs");
+
+							stfPanel_editButt.setVisible(true);
 							break;
 
 						case "Show Staff in the selected Position":
 							stfPanel_searchOrCheckButt.setText("Search");
-							stfPanel_searchOrCheckButt.setIcon(searchIcon);
+							stfPanel_searchOrCheckButt.setIcon(userInterface.searchIcon);
+							stfPanel_textField.setText("Please type the Position you want here...");
+							stfPanel_textField.setForeground(Color.LIGHT_GRAY);
 
+							stfPanel_searchOrCheckButt.setActionCommand("show staff info working in selected position");
+							stfPanel_searchOrCheckButt.setEnabled(true);
+							stfPanel_searchOrCheckButt.setText("Check");
+							stfPanel_searchOrCheckButt.setIcon(userInterface.checkIcon);
+
+							stfPanel_editButt.setVisible(false);
 							break;
 
 						case "Search using Staff's ID":
 							stfPanel_searchOrCheckButt.setText("Search");
-							stfPanel_searchOrCheckButt.setIcon(searchIcon);
+							stfPanel_searchOrCheckButt.setIcon(userInterface.searchIcon);
+							stfPanel_textField.setText("Please type the Staff ID you want here...");
+							stfPanel_textField.setForeground(Color.LIGHT_GRAY);
 
+							stfPanel_searchOrCheckButt.setActionCommand("search staff by ID _ action");
+							stfPanel_searchOrCheckButt.setEnabled(true);
+							stfPanel_searchOrCheckButt.setText("Search");
+							stfPanel_searchOrCheckButt.setIcon(userInterface.searchIcon);
+
+							stfPanel_editButt.setVisible(true);
 							break;
 
 						case "Search using Staff's Name":
 							stfPanel_searchOrCheckButt.setText("Search");
-							stfPanel_searchOrCheckButt.setIcon(searchIcon);
-
+							stfPanel_searchOrCheckButt.setIcon(userInterface.searchIcon);
+							stfPanel_textField.setText("Please type the Staff Name you want here...");
+							stfPanel_textField.setForeground(Color.LIGHT_GRAY);
+				
+							stfPanel_searchOrCheckButt.setActionCommand("search staff using name");
+							stfPanel_searchOrCheckButt.setEnabled(true);
+							stfPanel_searchOrCheckButt.setText("Search");
+							stfPanel_searchOrCheckButt.setIcon(userInterface.searchIcon);
+				
+							stfPanel_editButt.setVisible(true);
 							break;
 
 						case "Check the selected Staff's hometown":
 							stfPanel_searchOrCheckButt.setText("Check");
-							stfPanel_searchOrCheckButt.setIcon(checkIcon);
+							stfPanel_searchOrCheckButt.setIcon(userInterface.checkIcon);
+							stfPanel_textField.setText("Please type the Staff ID you want here...");
+							stfPanel_textField.setForeground(Color.LIGHT_GRAY);
 
+							stfPanel_searchOrCheckButt.setActionCommand("check and give conclusion whether selected staff is national or foreign");
+							stfPanel_searchOrCheckButt.setEnabled(true);
+							stfPanel_searchOrCheckButt.setText("Check");
+							stfPanel_searchOrCheckButt.setIcon(userInterface.checkIcon);
+
+							stfPanel_editButt.setVisible(false);
 							break;
 
 						default:
 							break;
 					}
-
-					if(sltItem.equals("Show national Staffs") || sltItem.equals("Show foreign Staffs"))
-					{
-						stfPanel_searchOrCheckButt.setText("Show");
-						stfPanel_searchOrCheckButt.setIcon(showIcon);
-					}
-					else if(sltItem == "Show Staff in the selected Position" || sltItem == "Search using Staff's ID" || sltItem == "Search using Staff's Name")
-					{
-						stfPanel_searchOrCheckButt.setText("Search");
-						stfPanel_searchOrCheckButt.setIcon(searchIcon);
-					}
-					else if(sltItem == "Check the selected Staff's hometown")
-					{
-						stfPanel_searchOrCheckButt.setText("Check");
-						stfPanel_searchOrCheckButt.setIcon(checkIcon);
-					}
 				}
 			}
 		);
-
 		stfPanel.add(stfPanel_comboBox);
 		
 		stfPanel_showTblButt.setBounds(10, 113, 152, 34);
@@ -262,44 +268,8 @@ public class staffPanel implements ActionListener
 		stfPanel_showTblButt.addActionListener(this);
 		stfPanel.add(stfPanel_showTblButt);
 		
-		stfPanel_nationalStfButt.setBounds(172, 113, 152, 34);
-		stfPanel_nationalStfButt.setActionCommand("show national staffs");
-		stfPanel_nationalStfButt.setToolTipText("Show all information of national Staffs");
-		stfPanel_nationalStfButt.addActionListener(this);
-		stfPanel.add(stfPanel_nationalStfButt);
-		
-		stfPanel_foreignStfButt.setBounds(340, 113, 152, 34);
-		stfPanel_foreignStfButt.setActionCommand("show foreign staffs");
-		stfPanel_foreignStfButt.setToolTipText("Show all information of foreign Staffs");
-		stfPanel_foreignStfButt.addActionListener(this);
-		stfPanel.add(stfPanel_foreignStfButt);
-		
-		stfPanel_staffsInPosButt.setBounds(502, 113, 152, 34);
-		stfPanel_staffsInPosButt.setActionCommand("show staff in the selected position");
-		stfPanel_staffsInPosButt.setToolTipText("Show conclusion about the Seller's name working in the selected Position basing on Position name");
-		stfPanel_staffsInPosButt.addActionListener(this);
-		stfPanel.add(stfPanel_staffsInPosButt);
-		
-		stfPanel_checkStfHtwnButt.setBounds(664, 113, 152, 34);
-		stfPanel_checkStfHtwnButt.setActionCommand("check national or foreign staff");
-		stfPanel_checkStfHtwnButt.setToolTipText("Show conclustion about the selected Staff is national or foreign basing on their ID");
-		stfPanel_checkStfHtwnButt.addActionListener(this);
-		stfPanel.add(stfPanel_checkStfHtwnButt);
-		
-		stfPanel_searchByIDButt.setBounds(826, 113, 152, 34);
-		stfPanel_searchByIDButt.setActionCommand("search staff by ID _ option");
-		stfPanel_searchByIDButt.setToolTipText("Show full information of the Staff basing on the selected Staff ID");
-		stfPanel_searchByIDButt.addActionListener(this);
-		stfPanel.add(stfPanel_searchByIDButt);
-		
-		stfPanel_searchByNameButt.setBounds(988, 113, 152, 34);
-		stfPanel_searchByNameButt.setActionCommand("search staff by name");
-		stfPanel_searchByNameButt.setToolTipText("Show full information of the Staff basing on the selected Staff Name");
-		stfPanel_searchByNameButt.addActionListener(this);
-		stfPanel.add(stfPanel_searchByNameButt);
-		
 		stfPanel_addButt.setBounds(172, 42, 101, 34);
-        stfPanel_addButt.setIcon(addIcon);
+        stfPanel_addButt.setIcon(userInterface.addIcon);
 		stfPanel_addButt.setHorizontalTextPosition(SwingConstants.LEFT);
 		stfPanel_addButt.setActionCommand("add staff");
 		stfPanel_addButt.setToolTipText("Add one more Staff into the table");
@@ -307,7 +277,7 @@ public class staffPanel implements ActionListener
 		stfPanel.add(stfPanel_addButt);
 		
 		stfPanel_deleteButt.setBounds(61, 42, 101, 34);
-        stfPanel_deleteButt.setIcon(deleteIcon);
+        stfPanel_deleteButt.setIcon(userInterface.deleteIcon);
 		stfPanel_deleteButt.setHorizontalTextPosition(SwingConstants.LEFT);
 		stfPanel_deleteButt.setActionCommand("delete staff");
 		stfPanel_deleteButt.setToolTipText("Delete a selected Staff in the table");
@@ -315,7 +285,7 @@ public class staffPanel implements ActionListener
 		stfPanel.add(stfPanel_deleteButt);
 
 		stfPanel_editButt.setBounds(995, 42, 101, 34);
-        stfPanel_editButt.setIcon(editIcon);
+        stfPanel_editButt.setIcon(userInterface.editIcon);
 		stfPanel_editButt.setHorizontalTextPosition(SwingConstants.LEFT);
 		stfPanel_editButt.setActionCommand("edit staff");
 		stfPanel_editButt.setToolTipText("Edit a selected Staff in the table");
@@ -576,7 +546,6 @@ public class staffPanel implements ActionListener
 			{
 				stfPanel_editButt.setVisible(true);
 			}
-			//stfPanel_searchOrCheckButt.setEnabled(false);
 		}
 
 		//when clicking into National Staffs button
@@ -615,9 +584,6 @@ public class staffPanel implements ActionListener
 			stfTable.getColumnModel().getColumn(2).setCellRenderer(centerTextInCell);
 		    stfTable.getColumnModel().getColumn(3).setCellRenderer(centerTextInCell);
 			stfTable.getColumnModel().getColumn(4).setCellRenderer(centerTextInCell);
-
-			stfPanel_editButt.setVisible(false);
-			//stfPanel_searchOrCheckButt.setEnabled(false);
 		}
 
 		//when clicking into Foreign Staffs button
@@ -656,24 +622,9 @@ public class staffPanel implements ActionListener
 			stfTable.getColumnModel().getColumn(2).setCellRenderer(centerTextInCell);
 			stfTable.getColumnModel().getColumn(3).setCellRenderer(centerTextInCell);
 			stfTable.getColumnModel().getColumn(4).setCellRenderer(centerTextInCell);
-
-			stfPanel_editButt.setVisible(false);
 			//stfPanel_searchOrCheckButt.setEnabled(false);
 		}
 
-		//when clicking into Staffs in a Position button
-		if(e.getActionCommand() == "show staff in the selected position")
-		{
-			stfPanel_textField.setText("Please type the Position you want here...");
-			stfPanel_textField.setForeground(Color.LIGHT_GRAY);
-
-			stfPanel_searchOrCheckButt.setActionCommand("show staff info working in selected position");
-			stfPanel_searchOrCheckButt.setEnabled(true);
-			stfPanel_searchOrCheckButt.setText("Check");
-			stfPanel_searchOrCheckButt.setIcon(checkIcon);
-
-			stfPanel_editButt.setVisible(false);
-		}
 		//when clicking into Check button
 		if(e.getActionCommand() == "show staff info working in selected position")
 		{
@@ -717,7 +668,7 @@ public class staffPanel implements ActionListener
 			}
 
 			stfPanel_searchOrCheckButt.setText("Search");
-			stfPanel_searchOrCheckButt.setIcon(searchIcon);
+			stfPanel_searchOrCheckButt.setIcon(userInterface.searchIcon);
 			//stfPanel_searchOrCheckButt.setEnabled(false);
 
 			if(connectToDatabase.userRole == "manager")
@@ -726,19 +677,6 @@ public class staffPanel implements ActionListener
 			}
 		}
 
-		//when clicking into Hometown of a Staff button
-		if(e.getActionCommand() == "check national or foreign staff")
-		{
-			stfPanel_textField.setText("Please type the Staff ID you want here...");
-			stfPanel_textField.setForeground(Color.LIGHT_GRAY);
-
-			stfPanel_searchOrCheckButt.setActionCommand("check and give conclusion whether selected staff is national or foreign");
-			stfPanel_searchOrCheckButt.setEnabled(true);
-			stfPanel_searchOrCheckButt.setText("Check");
-			stfPanel_searchOrCheckButt.setIcon(checkIcon);
-
-			stfPanel_editButt.setVisible(false);
-		}
 		//when clicking into Check button
 		if(e.getActionCommand() == "check and give conclusion whether selected staff is national or foreign")
 		{
@@ -753,10 +691,6 @@ public class staffPanel implements ActionListener
 
 			stfTable.setModel(stfTableModel);
 			stfTable.getColumnModel().getColumn(0).setCellRenderer(centerTextInCell);
-
-			stfPanel_searchOrCheckButt.setText("Search");
-			stfPanel_searchOrCheckButt.setIcon(searchIcon);
-			//stfPanel_searchOrCheckButt.setEnabled(false);
 		}
 
 		//when clicking into Search Staff by ID button
@@ -768,9 +702,7 @@ public class staffPanel implements ActionListener
 			stfPanel_searchOrCheckButt.setActionCommand("search staff by ID _ action");
 			stfPanel_searchOrCheckButt.setEnabled(true);
 			stfPanel_searchOrCheckButt.setText("Search");
-			stfPanel_searchOrCheckButt.setIcon(searchIcon);
-
-			stfPanel_editButt.setVisible(false);
+			stfPanel_searchOrCheckButt.setIcon(userInterface.searchIcon);
 		}
 		//when clicking into Search button
 		if(e.getActionCommand() == "search staff by ID _ action")
@@ -820,19 +752,6 @@ public class staffPanel implements ActionListener
 			//stfPanel_searchOrCheckButt.setEnabled(false);
 		}
 
-		//when clicking into Search Staff by Name button
-		if(e.getActionCommand() == "search staff by name")
-		{
-			stfPanel_textField.setText("Please type the Staff Name you want here...");
-			stfPanel_textField.setForeground(Color.LIGHT_GRAY);
-
-			stfPanel_searchOrCheckButt.setActionCommand("search staff using name");
-			stfPanel_searchOrCheckButt.setEnabled(true);
-			stfPanel_searchOrCheckButt.setText("Search");
-			stfPanel_searchOrCheckButt.setIcon(searchIcon);
-
-			stfPanel_editButt.setVisible(false);
-		}
 		//when clicking into Search button
 		if(e.getActionCommand().equals("search staff using name"))
 		{
@@ -857,7 +776,7 @@ public class staffPanel implements ActionListener
 			stfTableModel.setRowCount(0);
 
 			ArrayList<Staff> list;
-			list = getTable.searchStaffUsingName(stfPanel_textField.getText());
+			list = getProcedure.showStfInfoUsingName(stfPanel_textField.getText());
 			for(Staff stf:list)
 			{
 				stfTableModel.addRow(stf.staffToArray());

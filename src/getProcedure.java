@@ -71,6 +71,42 @@ public class getProcedure
 		return list;
     }
 
+	public static ArrayList<Staff> showStfInfoUsingName(String nameOfStaff) 
+    {
+    	ArrayList<Staff> arrList = new ArrayList<>();
+    	Connection connect =  connectToDatabase.connectToSql(actionListener.user, actionListener.password);
+    	String sql = "select Staff_ID, Position, Staff_Name, Gender, Hometown, Image from Staff where Staff_Name like ? ";
+
+		try 
+		{
+			PreparedStatement pstm = connect.prepareStatement(sql);
+			pstm.setString(1, "%" + nameOfStaff + "%");
+			ResultSet rs = pstm.executeQuery();
+			
+    		while(rs.next() == true)
+    		{
+    			String Staff_ID = rs.getString("Staff_ID");
+    			String Position = rs.getString("Position");
+    			String Staff_Name = rs.getString("Staff_Name");
+    			String Hometown = rs.getString("Hometown");
+				String Gender = rs.getString("Gender");
+				Blob imgBlob = rs.getBlob("Image");
+				byte[] imgByte = imgBlob.getBytes(1, (int) imgBlob.length()); 
+				ImageIcon Image = new ImageIcon(imgByte);
+    			Staff staff = new Staff(Staff_ID, Position, Staff_Name, Gender, Hometown, Image);
+    			
+    			arrList.add(staff);
+			}
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+
+    	return arrList;
+    }
+
+
     public static ArrayList<Staff> getStaffWorkingInSelectedPositonList(String selectedPos)
     {
         ArrayList<Staff> list = new ArrayList<>();

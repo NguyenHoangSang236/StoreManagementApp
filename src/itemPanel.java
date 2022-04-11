@@ -27,13 +27,6 @@ import java.util.Properties;
 
 public class itemPanel implements ActionListener
 {
-    public ImageIcon searchIcon = new ImageIcon();
-	public ImageIcon checkIcon = new ImageIcon();
-	public ImageIcon editIcon = new ImageIcon();
-	public ImageIcon deleteIcon = new ImageIcon();
-	public ImageIcon addIcon = new ImageIcon();
-	public ImageIcon showIcon = new ImageIcon();
-
     public DefaultTableCellRenderer centerTextInCell = new DefaultTableCellRenderer();
     public JButton chooseImageButt;
     public String conclusion, selectedStaffGender;
@@ -41,25 +34,20 @@ public class itemPanel implements ActionListener
     public int rowPoint;
 	public boolean avai;
 	public int day, month, year;
+	public String sltItem;
+	public String[] optionList = {"Show low cost Items", "Show expensive Items", "Compare Selling price and Original price", "Top 3 best selling Items", "Check Original price of the selected Item", "Check Selling price of the selected Item", "Search Item using Item Code", "Search Item using Item's Name"};
 
 	public JPanel itmPanel = new JPanel();
 	public JScrollPane itmPanel_table = new JScrollPane();
 	public JTable itmTable = new JTable();
 	public DefaultTableModel itmTableModel;
 	public JTextField itmPanel_textField = new JTextField();
-	public JButton itmPanel_searchOrCheckButt = new JButton("Search", searchIcon);
-	public JButton itmPanel_showTblButt = new JButton("Show full table");
-	public JButton itmPanel_cheapItemsButt = new JButton("Low Cost");
-	public JButton itmPanel_foreignitmButt = new JButton("Expensive");
-	public JButton itmPanel_priceDifferencesButt = new JButton("Sell vs Org");
-	public JButton itmPanel_top3BestSellButt = new JButton("Top 3 best sell");
-	public JButton itmPanel_sellingPriceButt = new JButton("Selling Price");
-	public JButton itmPanel_originalPriceButt = new JButton("Original Price");
-	public JButton itmPanel_searchByItmCodeButt = new JButton("Search by Code");
-	public JButton itmPanel_searchByItmNameButt = new JButton("Search by Name");
-	public JButton itmPanel_addButt = new JButton("Add", addIcon);
-	public JButton itmPanel_deleteButt = new JButton("Delete", deleteIcon);
-	public JButton itmPanel_editButt = new JButton("Edit", editIcon);
+	public JButton itmPanel_searchOrCheckButt = new JButton("Search", userInterface.searchIcon);
+	public JButton itmPanel_showTblButt = new JButton("Show full table"); 
+	public JButton itmPanel_addButt = new JButton("Add", userInterface.addIcon);
+	public JButton itmPanel_deleteButt = new JButton("Delete", userInterface.deleteIcon);
+	public JButton itmPanel_editButt = new JButton("Edit", userInterface.editIcon);
+	public customedComboBox itmPanel_comboBox = new customedComboBox(optionList);
 
 	public JPanel showItmInfoPanel = new JPanel();
 	public JLabel showItmInfo_itemCodeLabel = new JLabel("Item Code");
@@ -133,11 +121,10 @@ public class itemPanel implements ActionListener
 
 
 
+
     //method for setting up components in Item Panel
 	public void setItemPanel()
 	{
-		images.readIcons(addIcon, deleteIcon, editIcon, searchIcon, checkIcon, showIcon);
-
 		itmPanel.setBounds(0, 0, 1194, 594);
 		itmPanel.setLayout(null);
 
@@ -197,7 +184,7 @@ public class itemPanel implements ActionListener
 		itmPanel_table.setViewportView(itmTable);
 		itmPanel.add(itmPanel_table);
 		
-		itmPanel_textField.setBounds(340, 42, 476, 34);
+		itmPanel_textField.setBounds(340, 42, 343, 34);
 		itmPanel_textField.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		itmPanel_textField.addMouseListener(new MouseInputAdapter() 
 			{
@@ -208,55 +195,125 @@ public class itemPanel implements ActionListener
 			}
 		);
 		itmPanel.add(itmPanel_textField);
-		
+
 		itmPanel_searchOrCheckButt.setBounds(877, 42, 130, 34);
 		itmPanel_searchOrCheckButt.setHorizontalTextPosition(SwingConstants.LEFT);
 		itmPanel_searchOrCheckButt.addActionListener(this);
-		itmPanel_searchOrCheckButt.setEnabled(false);
 		itmPanel_searchOrCheckButt.setForeground(Color.red);
 		itmPanel.add(itmPanel_searchOrCheckButt);
+
+		itmPanel_comboBox.setBounds(684, 42, 142, 34);
+		itmPanel_comboBox.setPreferredSize(new Dimension(180, 20));
+        itmPanel_comboBox.setWide(true); 
+		itmPanel_comboBox.addActionListener(new actionListener()
+			{
+				public void actionPerformed(ActionEvent e)
+				{
+					sltItem = (String) itmPanel_comboBox.getSelectedItem();
+
+					switch (sltItem) 
+					{
+						case "Show low cost Items":
+							itmPanel_searchOrCheckButt.setText("Show");
+							// ImageIcon show = new ImageIcon();
+							// images.readAndResizeImage(show, "F:\\study\\JAVA\\StoreManagementApp\\icons\\showIcon.png", 27, 27);
+							itmPanel_searchOrCheckButt.setIcon(showIcon);
+							itmPanel_searchOrCheckButt.setActionCommand("show cheap items");
+
+							itmPanel_editButt.setVisible(true);
+							break;
+
+						case "Show expensive Items":
+							itmPanel_searchOrCheckButt.setText("Show");
+							itmPanel_searchOrCheckButt.setIcon(showIcon);
+							itmPanel_searchOrCheckButt.setActionCommand("show expensive items");
+
+							itmPanel_editButt.setVisible(true);
+							break;
+
+						case "Top 3 best selling Items":
+							itmPanel_searchOrCheckButt.setText("Show");
+							itmPanel_searchOrCheckButt.setIcon(showIcon);
+							itmPanel_searchOrCheckButt.setActionCommand("show top 3 best selling");
+
+							itmPanel_editButt.setVisible(true);
+							break;
+
+						case "Check Selling price of the selected Item":
+							itmPanel_searchOrCheckButt.setText("Search");
+							itmPanel_searchOrCheckButt.setIcon(searchIcon);
+							itmPanel_textField.setText("Please type the Item name you want here...");
+							itmPanel_textField.setForeground(Color.LIGHT_GRAY);
+
+							itmPanel_searchOrCheckButt.setActionCommand("check and give conclusion about the selling price");
+							itmPanel_searchOrCheckButt.setEnabled(true);
+							itmPanel_searchOrCheckButt.setText("Check");
+							itmPanel_searchOrCheckButt.setIcon(checkIcon);
+
+							itmPanel_editButt.setVisible(false);
+							break;
+
+						case "Check Original price of the selected Item":
+							itmPanel_textField.setText("Please type the Item name you want here...");
+							itmPanel_textField.setForeground(Color.LIGHT_GRAY);
+				
+							itmPanel_searchOrCheckButt.setActionCommand("check and give conclusion about the original price");
+							itmPanel_searchOrCheckButt.setEnabled(true);
+							itmPanel_searchOrCheckButt.setText("Check");
+							itmPanel_searchOrCheckButt.setIcon(checkIcon);
+				
+							itmPanel_editButt.setVisible(false);
+							break;
+
+						case "Search Item using Item Code":
+							itmPanel_searchOrCheckButt.setText("Search");
+							itmPanel_searchOrCheckButt.setIcon(searchIcon);
+							itmPanel_textField.setText("Please type the Item code you want here...");
+							itmPanel_textField.setForeground(Color.LIGHT_GRAY);
+
+							itmPanel_searchOrCheckButt.setActionCommand("search item by code");
+							itmPanel_searchOrCheckButt.setEnabled(true);
+							itmPanel_searchOrCheckButt.setText("Search");
+							itmPanel_searchOrCheckButt.setIcon(searchIcon);
+
+							itmPanel_editButt.setVisible(true);
+							break;
+
+						case "Search Item using Item's Name":
+							itmPanel_searchOrCheckButt.setText("Search");
+							itmPanel_searchOrCheckButt.setIcon(searchIcon);
+							itmPanel_textField.setText("Please type the Item name you want here...");
+							itmPanel_textField.setForeground(Color.LIGHT_GRAY);
+
+							itmPanel_searchOrCheckButt.setActionCommand("search item by name");
+							itmPanel_searchOrCheckButt.setEnabled(true);
+							itmPanel_searchOrCheckButt.setText("Search");
+							itmPanel_searchOrCheckButt.setIcon(searchIcon);
+
+							itmPanel_editButt.setVisible(true);
+							break;
+
+						case "Compare Selling price and Original price":
+							itmPanel_searchOrCheckButt.setText("Show");
+							itmPanel_searchOrCheckButt.setIcon(showIcon);
+							itmPanel_searchOrCheckButt.setActionCommand("show price differences");
+
+							itmPanel_editButt.setVisible(false);
+							break;
+
+						default:
+							break;
+					}
+				}
+			}
+		);
+		itmPanel.add(itmPanel_comboBox);
 		
 		itmPanel_showTblButt.setBounds(10, 113, 118, 34);
 		itmPanel_showTblButt.setActionCommand("show item table");
 		itmPanel_showTblButt.setToolTipText("Show all information in the items table");
 		itmPanel_showTblButt.addActionListener(this);
 		itmPanel.add(itmPanel_showTblButt);
-		
-		itmPanel_cheapItemsButt.setBounds(132, 113, 115, 34);
-		itmPanel_cheapItemsButt.setActionCommand("show cheap items");
-		itmPanel_cheapItemsButt.setToolTipText("Show all information of cheap Items (<500)");
-		itmPanel_cheapItemsButt.addActionListener(this);
-		itmPanel.add(itmPanel_cheapItemsButt);
-		
-		itmPanel_foreignitmButt.setBounds(254, 113, 125, 34);
-		itmPanel_foreignitmButt.setActionCommand("show expensive items");
-		itmPanel_foreignitmButt.setToolTipText("Show all information of expensive Items (>500)");
-		itmPanel_foreignitmButt.addActionListener(this);
-		itmPanel.add(itmPanel_foreignitmButt);
-		
-		itmPanel_priceDifferencesButt.setBounds(385, 113, 125, 34);
-		itmPanel_priceDifferencesButt.setActionCommand("show price differences");
-		itmPanel_priceDifferencesButt.setToolTipText("Show the differences between Selling Price and Original Price of all Items");
-		itmPanel_priceDifferencesButt.addActionListener(this);
-		itmPanel.add(itmPanel_priceDifferencesButt);
-		
-		itmPanel_top3BestSellButt.setBounds(514, 113, 120, 34);
-		itmPanel_top3BestSellButt.setActionCommand("show top 3 best selling");
-		itmPanel_top3BestSellButt.setToolTipText("Show top 3 best selling Items basing on Quantity of Orders");
-		itmPanel_top3BestSellButt.addActionListener(this);
-		itmPanel.add(itmPanel_top3BestSellButt);
-		
-		itmPanel_sellingPriceButt.setBounds(640, 113, 120, 34);
-		itmPanel_sellingPriceButt.setActionCommand("check selling price");
-		itmPanel_sellingPriceButt.setToolTipText("Show conclusion about the Selling Price of the selected Item");
-		itmPanel_sellingPriceButt.addActionListener(this);
-		itmPanel.add(itmPanel_sellingPriceButt);
-		
-		itmPanel_originalPriceButt.setBounds(766, 113, 120, 34);
-		itmPanel_originalPriceButt.setActionCommand("check original price");
-		itmPanel_originalPriceButt.setToolTipText("Show conclusion about the Original Price of the selected Item");
-		itmPanel_originalPriceButt.addActionListener(this);
-		itmPanel.add(itmPanel_originalPriceButt);
 		
 		itmPanel_addButt.setBounds(172, 42, 101, 34);
 		itmPanel_addButt.setHorizontalTextPosition(SwingConstants.LEFT);
@@ -278,18 +335,6 @@ public class itemPanel implements ActionListener
 		itmPanel_editButt.setToolTipText("Edit a selected Item in the table");
 		itmPanel_editButt.addActionListener(this);
 		itmPanel.add(itmPanel_editButt);
-		
-		itmPanel_searchByItmNameButt.setToolTipText("Show full information of the Item basing on the selected Item Name");
-		itmPanel_searchByItmNameButt.setActionCommand("search item by name _ option");
-		itmPanel_searchByItmNameButt.addActionListener(this);
-		itmPanel_searchByItmNameButt.setBounds(1022, 113, 130, 34);
-		itmPanel.add(itmPanel_searchByItmNameButt);
-		
-		itmPanel_searchByItmCodeButt.setToolTipText("Show full information of the Item basing on the selected Item Code");
-		itmPanel_searchByItmCodeButt.setActionCommand("search item by code _ option");
-		itmPanel_searchByItmCodeButt.addActionListener(this);
-		itmPanel_searchByItmCodeButt.setBounds(890, 113, 128, 34);
-		itmPanel.add(itmPanel_searchByItmCodeButt);
 	}
 
 
@@ -615,7 +660,6 @@ public class itemPanel implements ActionListener
 			{
 				itmPanel_editButt.setVisible(true);
 			}
-			itmPanel_searchOrCheckButt.setEnabled(false);
 		}
 
 		//when clicking into Low cost
@@ -652,8 +696,6 @@ public class itemPanel implements ActionListener
 			itmTable.getColumnModel().getColumn(1).setCellRenderer(centerTextInCell);
 			itmTable.getColumnModel().getColumn(2).setCellRenderer(centerTextInCell);
 			itmTable.getColumnModel().getColumn(3).setCellRenderer(centerTextInCell);
-
-			itmPanel_editButt.setVisible(false);
 		}
 
 		//when clicking into Expensive
@@ -690,8 +732,6 @@ public class itemPanel implements ActionListener
 			itmTable.getColumnModel().getColumn(1).setCellRenderer(centerTextInCell);
 			itmTable.getColumnModel().getColumn(2).setCellRenderer(centerTextInCell);
 			itmTable.getColumnModel().getColumn(3).setCellRenderer(centerTextInCell);
-
-			itmPanel_editButt.setVisible(false);
 		}
 
 		//when click into Sell vs Org button
@@ -719,8 +759,6 @@ public class itemPanel implements ActionListener
 			itmTable.getColumnModel().getColumn(1).setCellRenderer(centerTextInCell);
 			itmTable.getColumnModel().getColumn(2).setCellRenderer(centerTextInCell);
 			itmTable.getColumnModel().getColumn(3).setCellRenderer(centerTextInCell);
-
-			itmPanel_editButt.setVisible(false);
 		}
 
 		//when clicking into Top 3 Best sell button
@@ -757,23 +795,8 @@ public class itemPanel implements ActionListener
 			itmTable.getColumnModel().getColumn(1).setCellRenderer(centerTextInCell);
 			itmTable.getColumnModel().getColumn(2).setCellRenderer(centerTextInCell);
 			itmTable.getColumnModel().getColumn(3).setCellRenderer(centerTextInCell);
-
-			itmPanel_editButt.setVisible(false);
 		}
 
-		//when clicking into Selling Price button
-		if(e.getActionCommand() == "check selling price")
-		{
-			itmPanel_textField.setText("Please type the Item name you want here...");
-			itmPanel_textField.setForeground(Color.LIGHT_GRAY);
-
-			itmPanel_searchOrCheckButt.setActionCommand("check and give conclusion about the selling price");
-			itmPanel_searchOrCheckButt.setEnabled(true);
-			itmPanel_searchOrCheckButt.setText("Check");
-			itmPanel_searchOrCheckButt.setIcon(checkIcon);
-
-			itmPanel_editButt.setVisible(false);
-		}
 		//when clicking into Check button
 		if(e.getActionCommand() == "check and give conclusion about the selling price")
 		{
@@ -790,23 +813,9 @@ public class itemPanel implements ActionListener
 			itmTable.getColumnModel().getColumn(0).setCellRenderer(centerTextInCell);
 
 			itmPanel_searchOrCheckButt.setText("Search");
-			itmPanel_searchOrCheckButt.setIcon(searchIcon);
-			itmPanel_searchOrCheckButt.setEnabled(false);
+			itmPanel_searchOrCheckButt.setIcon(userInterface.searchIcon);
 		}
 
-		//when clicking into Original Price button
-		if(e.getActionCommand() == "check original price")
-		{
-			itmPanel_textField.setText("Please type the Item name you want here...");
-			itmPanel_textField.setForeground(Color.LIGHT_GRAY);
-
-			itmPanel_searchOrCheckButt.setActionCommand("check and give conclusion about the original price");
-			itmPanel_searchOrCheckButt.setEnabled(true);
-			itmPanel_searchOrCheckButt.setText("Check");
-			itmPanel_searchOrCheckButt.setIcon(checkIcon);
-
-			itmPanel_editButt.setVisible(false);
-		}
 		//when clicking into Check button
 		if(e.getActionCommand() == "check and give conclusion about the original price")
 		{
@@ -823,25 +832,11 @@ public class itemPanel implements ActionListener
 			itmTable.getColumnModel().getColumn(0).setCellRenderer(centerTextInCell);
 
 			itmPanel_searchOrCheckButt.setText("Search");
-			itmPanel_searchOrCheckButt.setIcon(searchIcon);
-			itmPanel_searchOrCheckButt.setEnabled(false);
+			itmPanel_searchOrCheckButt.setIcon(userInterface.searchIcon);
 		}
 
-		//when clicking into Search by Code button
-		if(e.getActionCommand() == "search item by code _ option")
-		{
-			itmPanel_textField.setText("Please type the Item code you want here...");
-			itmPanel_textField.setForeground(Color.LIGHT_GRAY);
-
-			itmPanel_searchOrCheckButt.setActionCommand("search item by code _ action");
-			itmPanel_searchOrCheckButt.setEnabled(true);
-			itmPanel_searchOrCheckButt.setText("Search");
-			itmPanel_searchOrCheckButt.setIcon(searchIcon);
-
-			itmPanel_editButt.setVisible(false);
-		}
 		//when clicking into Search button
-		if(e.getActionCommand() == "search item by code _ action")
+		if(e.getActionCommand() == "search item by code")
 		{
 			itmTableModel = new DefaultTableModel()
 			{
@@ -888,29 +883,10 @@ public class itemPanel implements ActionListener
 			{
 				JOptionPane.showMessageDialog(null, "This Item code is non-exist");
 			}
-
-			if(connectToDatabase.userRole == "manager")
-			{
-				itmPanel_editButt.setVisible(true);
-			}
-			itmPanel_searchOrCheckButt.setEnabled(false);
 		}
 		
-		//when clicking into Search by name button
-		if(e.getActionCommand() == "search item by name _ option")
-		{
-			itmPanel_textField.setText("Please type the Item name you want here...");
-			itmPanel_textField.setForeground(Color.LIGHT_GRAY);
-
-			itmPanel_searchOrCheckButt.setActionCommand("search item by name _ action");
-			itmPanel_searchOrCheckButt.setEnabled(true);
-			itmPanel_searchOrCheckButt.setText("Search");
-			itmPanel_searchOrCheckButt.setIcon(searchIcon);
-
-			itmPanel_editButt.setVisible(false);
-		}
 		//when clicking into Search button
-		if(e.getActionCommand() == "search item by name _ action")
+		if(e.getActionCommand() == "search item by name")
 		{
 			itmTableModel = new DefaultTableModel()
 			{
@@ -957,12 +933,6 @@ public class itemPanel implements ActionListener
 			{
 				JOptionPane.showMessageDialog(null, "This Item name is non-exist");
 			}
-
-			if(connectToDatabase.userRole == "manager")
-			{
-				itmPanel_editButt.setVisible(true);
-			}
-			itmPanel_searchOrCheckButt.setEnabled(false);
 		}
 
 		//when clicking in to 'Yes' radio butt

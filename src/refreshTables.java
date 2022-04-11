@@ -5,11 +5,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+
+
 public class refreshTables 
 {
     public static void StaffTable(JTable table, DefaultTableModel model, DefaultTableCellRenderer cellRenderer)
     {
-        JOptaaasgafyastftaa
         model = new DefaultTableModel()
         {
             @Override
@@ -119,5 +120,33 @@ public class refreshTables
         table.getColumnModel().getColumn(3).setCellRenderer(cellRenderer);
         table.getColumnModel().getColumn(4).setCellRenderer(cellRenderer);
         table.getColumnModel().getColumn(5).setCellRenderer(cellRenderer);
+    }
+
+
+
+    public static void StallTable(JTable table, DefaultTableModel model, DefaultTableCellRenderer cellRenderer)
+    {
+        model = new DefaultTableModel();
+        
+        model.setColumnCount(0);
+        table.setRowHeight(100);
+    
+        model.addColumn("Ordinal Number");
+        model.addColumn("Stall Name");
+        model.addColumn("Supplier ID");
+        model.setRowCount(0);
+
+        ArrayList<Stall> list;
+        list = getTable.getStallListToShow();
+        for(Stall stall:list)
+        {
+            model.addRow(stall.stallToArray());
+        }
+
+        table.setModel(model);
+        table.getColumnModel().getColumn(0).setCellRenderer(cellRenderer);
+        table.getColumnModel().getColumn(1).setCellRenderer(cellRenderer);
+        table.getColumnModel().getColumn(2).setCellRenderer(cellRenderer);
+
     }
 }

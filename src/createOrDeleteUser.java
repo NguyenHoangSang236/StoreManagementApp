@@ -66,32 +66,15 @@ public class createOrDeleteUser
 	public static void createManagerLogin(String creUser, String crePass, String ID)
 	{
 		Connection connect = connectToDatabase.connectToSql(actionListener.user, actionListener.password);
-		String login = "{call createNewManagerLogin_proc(?,?)}"; 
-		String user = "{call createNewUser_proc(?)}";
-		String roles = "{call sp_addrolemember(?,?)}";
 		String insert = "insert into LoginManager values (?,?,?)";
 		
 		try
 		{
-			PreparedStatement psLogin = connect.prepareStatement(login);			//tạo login
-			psLogin.setString(1, creUser);
-			psLogin.setString(2, crePass);
-			psLogin.execute();
-			
-			PreparedStatement psUser = connect.prepareStatement(user);				//tạo user trong database
-			psUser.setString(1, creUser);
-			psUser.execute();
-			
 			PreparedStatement psInsert = connect.prepareStatement(insert);			//insert tên user và pass vô bảng LoginManager trong database
 			psInsert.setString(1, creUser);											//mục đích: để lần sau check xem tài khoản này đã tồn tại hay chưa
 			psInsert.setString(2, crePass);
 			psInsert.setString(3, ID);
 			psInsert.execute();
-			
-			CallableStatement csRoles = connect.prepareCall(roles);					//gán quyền cho user
-			csRoles.setString(1, "db_owner");
-			csRoles.setString(2, creUser);
-			JOptionPane.showMessageDialog(null, "Success");
 		}
 		catch(SQLException e)
 		{
@@ -107,41 +90,15 @@ public class createOrDeleteUser
 	public static void createStaffLogin(String creUser, String crePass, String ID)
 	{
 		Connection connect = connectToDatabase.connectToSql(actionListener.user, actionListener.password);
-		String login = "{call createNewStaffLogin_proc(?,?)}";	
-		String user = "{call createNewUser_proc(?)}";
-		String roles = "call sp_addrolemember(?,?)";
 		String insert = "insert into LoginStaff values (?,?,?)";
-		String grantSelect = "{call grantSelectToStaffLogin_proc(?)}";
-		String grantExec = "{call grantExecuteToStaffLogin_proc(?)}";
 		
 		try
 		{
-			PreparedStatement psLogin = connect.prepareStatement(login);			//tạo login
-			psLogin.setString(1, creUser);
-			psLogin.setString(2, crePass);
-			psLogin.execute();
-			
-			PreparedStatement psUser = connect.prepareStatement(user);				//tạo user trong database
-			psUser.setString(1, creUser);
-			psUser.execute();
-			
 			PreparedStatement psInsert = connect.prepareStatement(insert);			//insert tên user và pass vô bảng LoginStaff trong database
 			psInsert.setString(1, creUser);											//mục đích: để lần sau check xem tài khoản này đã tồn tại hay chưa
 			psInsert.setString(2, crePass);
 			psInsert.setString(3, ID);
 			psInsert.execute();
-			
-			CallableStatement csRoles = connect.prepareCall(roles);					//gán quyền cho user
-			csRoles.setString(1, "db_datareader");
-			csRoles.setString(2, creUser);
-			
-			PreparedStatement psGrant = connect.prepareStatement(grantSelect);		//gán quyền truy vấn cho user
-			psGrant.setString(1, creUser);											//mục đích: cho phép nhân viên được xem các tables, functions và views
-			psGrant.execute();														
-
-			PreparedStatement psExec = connect.prepareStatement(grantExec);			//gán quyền execute các proc
-			psExec.setString(1, creUser);
-			psExec.execute();
 			
 			JOptionPane.showMessageDialog(null, "Success !!");
 		}

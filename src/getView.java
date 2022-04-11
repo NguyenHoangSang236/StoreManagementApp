@@ -236,4 +236,39 @@ public class getView
 		}
 		return list;
 	}	
+
+
+
+	public static ArrayList<Stall> getSellersAtStallsList()
+	{
+		ArrayList<Stall> list = new ArrayList<>();
+		Connection connect = connectToDatabase.connectToSql(actionListener.user, actionListener.password);
+		String sql = "select Stall_Name, Seller_ID, Seller_Name, Gender, Image from [dbo].[infoSellersAtStalls_view]";
+		
+		try
+		{
+			Statement stm = connect.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			
+			while(rs.next() == true)
+			{
+				String Seller_ID = rs.getString("Seller_ID");
+				String Stall_Name = rs.getString("Stall_Name");
+				String Seller_Name = rs.getString("Seller_Name");
+				String Gender = rs.getString("Gender");
+				Blob imgBlob = rs.getBlob("Image");
+				byte[] imgByte = imgBlob.getBytes(1, (int) imgBlob.length()); 
+				ImageIcon Image = new ImageIcon(imgByte);
+				
+				Stall sellersAtStalls = new Stall(Stall_Name, Seller_ID, Seller_Name, Gender, Image);
+						
+				list.add(sellersAtStalls);
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return list;
+	}    
 }

@@ -26,11 +26,11 @@ public class images
     //method for reading and resizing all icons that are used by different components
     public static void readIcons(ImageIcon addIcon, ImageIcon deleteIcon, ImageIcon editIcon, ImageIcon searchIcon, ImageIcon checkIcon, ImageIcon showIcon)
     {
-        readAndResizeImage(addIcon, "F:\\study\\JAVA\\DBMS_Project\\icons\\addIcon.png", 27, 27);
-		readAndResizeImage(deleteIcon, "F:\\study\\JAVA\\DBMS_Project\\icons\\deleteIcon.png", 27, 27);
-		readAndResizeImage(editIcon, "F:\\study\\JAVA\\DBMS_Project\\icons\\editIcon.png", 27, 27);
-		readAndResizeImage(searchIcon, "F:\\study\\JAVA\\DBMS_Project\\icons\\searchIcon.png", 27, 27);
-		readAndResizeImage(checkIcon, "F:\\study\\JAVA\\DBMS_Project\\icons\\checkIcon.png", 27, 27);
-        readAndResizeImage(showIcon, "F:\\study\\JAVA\\DBMS_Project\\icons\\showIcon.png", 27, 27);
+        readAndResizeImage(addIcon, "F:\\study\\JAVA\\StoreManagementApp\\icons\\addIcon.png", 27, 27);
+		readAndResizeImage(deleteIcon, "F:\\study\\JAVA\\StoreManagementApp\\icons\\deleteIcon.png", 27, 27);
+		readAndResizeImage(editIcon, "F:\\study\\JAVA\\StoreManagementApp\\icons\\editIcon.png", 27, 27);
+		readAndResizeImage(searchIcon, "F:\\study\\JAVA\\StoreManagementApp\\icons\\searchIcon.png", 27, 27);
+		readAndResizeImage(checkIcon, "F:\\study\\JAVA\\StoreManagementApp\\icons\\checkIcon.png", 27, 27);
+        readAndResizeImage(showIcon, "F:\\study\\JAVA\\StoreManagementApp\\icons\\showIcon.png", 27, 27);
     }
 }

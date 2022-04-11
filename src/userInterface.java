@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+
+
 public class userInterface implements ActionListener, MouseListener
 {
 	staffPanel staff = new staffPanel();
@@ -38,14 +40,14 @@ public class userInterface implements ActionListener, MouseListener
 	public ImageIcon deliIcon = new ImageIcon();
 	public ImageIcon recpIcon = new ImageIcon();
 	public ImageIcon suppIcon = new ImageIcon();
-	public ImageIcon searchIcon = new ImageIcon();
-	public ImageIcon checkIcon = new ImageIcon();
-	public ImageIcon editIcon = new ImageIcon();
-	public ImageIcon deleteIcon = new ImageIcon();
-	public ImageIcon addIcon = new ImageIcon();
+	public static ImageIcon searchIcon = new ImageIcon();
+	public static ImageIcon checkIcon = new ImageIcon();
+	public static ImageIcon editIcon = new ImageIcon();
+	public static ImageIcon deleteIcon = new ImageIcon();
+	public static ImageIcon addIcon = new ImageIcon();
 	public ImageIcon notiOnIcon = new ImageIcon();
 	public ImageIcon notiOffIcon = new ImageIcon();
-	public ImageIcon showIcon = new ImageIcon();
+	public static ImageIcon showIcon = new ImageIcon();
 	public JButton chooseImageButt;
 
 
@@ -377,16 +379,16 @@ public class userInterface implements ActionListener, MouseListener
 	//method for setting up Tabbed Panel
 	public void setTabbedPane()
 	{
-		images.readAndResizeImage(notiOnIcon, "F:\\study\\JAVA\\DBMS_Project\\icons\\notificationOnIcon.png", 30, 30);
-		images.readAndResizeImage(notiOffIcon, "F:\\study\\JAVA\\DBMS_Project\\icons\\notificationOffIcon.png", 30, 30);
-		images.readAndResizeImage(stfIcon, "F:\\study\\JAVA\\DBMS_Project\\icons\\staffIcon.png", 35, 35);
-		images.readAndResizeImage(itmIcon, "F:\\study\\JAVA\\DBMS_Project\\icons\\itemIcon.png", 35, 35);
-		images.readAndResizeImage(suppIcon, "F:\\study\\JAVA\\DBMS_Project\\icons\\supplierIcon.png", 35, 35);
-		images.readAndResizeImage(cusIcon, "F:\\study\\JAVA\\DBMS_Project\\icons\\customerIcon.png", 35, 35);
-		images.readAndResizeImage(stlIcon, "F:\\study\\JAVA\\DBMS_Project\\icons\\stallIcon.png", 35, 35);
-		images.readAndResizeImage(ordIcon, "F:\\study\\JAVA\\DBMS_Project\\icons\\orderIcon.png", 35, 35);
-		images.readAndResizeImage(deliIcon, "F:\\study\\JAVA\\DBMS_Project\\icons\\deliveryIcon.png", 35, 35);
-		images.readAndResizeImage(recpIcon, "F:\\study\\JAVA\\DBMS_Project\\icons\\receiptIcon.png", 35, 35);
+		images.readAndResizeImage(notiOnIcon, "F:\\study\\JAVA\\StoreManagementApp\\icons\\notificationOnIcon.png", 30, 30);
+		images.readAndResizeImage(notiOffIcon, "F:\\study\\JAVA\\StoreManagementApp\\icons\\notificationOffIcon.png", 30, 30);
+		images.readAndResizeImage(stfIcon, "F:\\study\\JAVA\\StoreManagementApp\\icons\\staffIcon.png", 35, 35);
+		images.readAndResizeImage(itmIcon, "F:\\study\\JAVA\\StoreManagementApp\\icons\\itemIcon.png", 35, 35);
+		images.readAndResizeImage(suppIcon, "F:\\study\\JAVA\\StoreManagementApp\\icons\\supplierIcon.png", 35, 35);
+		images.readAndResizeImage(cusIcon, "F:\\study\\JAVA\\StoreManagementApp\\icons\\customerIcon.png", 35, 35);
+		images.readAndResizeImage(stlIcon, "F:\\study\\JAVA\\StoreManagementApp\\icons\\stallIcon.png", 35, 35);
+		images.readAndResizeImage(ordIcon, "F:\\study\\JAVA\\StoreManagementApp\\icons\\orderIcon.png", 35, 35);
+		images.readAndResizeImage(deliIcon, "F:\\study\\JAVA\\StoreManagementApp\\icons\\deliveryIcon.png", 35, 35);
+		images.readAndResizeImage(recpIcon, "F:\\study\\JAVA\\StoreManagementApp\\icons\\receiptIcon.png", 35, 35);
 		staff.setStaffPanel();
 		supplier.setSupplierPanel();
 		item.setItemPanel();
@@ -411,8 +413,6 @@ public class userInterface implements ActionListener, MouseListener
 		mainPanel.setLayout(cardLayout);
 		mainPanel.add(loginPanel, "login");
 		mainPanel.add(tabPanel, "tab");
-
-		images.readIcons(addIcon, deleteIcon, editIcon, searchIcon, checkIcon, showIcon);
 	}
 
 
@@ -424,6 +424,8 @@ public class userInterface implements ActionListener, MouseListener
 		userFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		userFrame.setLocationRelativeTo(null);
 		userFrame.setLayout(null);
+
+		images.readIcons(addIcon, deleteIcon, editIcon, searchIcon, checkIcon, showIcon);
 
 		setMenu();
 		setLogin();
